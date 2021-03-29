@@ -4,6 +4,7 @@ import subprocess
 res = subprocess.run(['pdftk', sys.argv[1], 'dump_data_annots'], capture_output=True, text=True)
 if res.returncode != 0:
     print('Error from pdftk:\n{}'.format(res.stderr))
+    sys.exit(res.returncode)
 
 wantedPages = []
 
@@ -23,3 +24,6 @@ for line in res.stdout.split('\n'):
 command = ['pdftk', sys.argv[1], 'cat', *wantedPages, 'output', sys.argv[2]]
 print(command)
 res = subprocess.run(command)
+if res.returncode != 0:
+    print('Error from pdftk:\n{}'.format(res.stderr))
+    sys.exit(res.returncode)
