@@ -21,6 +21,10 @@ for line in res.stdout.split('\n'):
         _, number = line.split(":")
         wantedPages.append(number.strip())
 
+if len(wantedPages) == 0:
+    print("No pages with annotations; not creating an output file")
+    sys.exit(0)
+
 command = ['pdftk', sys.argv[1], 'cat', *wantedPages, 'output', sys.argv[2]]
 print(command)
 res = subprocess.run(command)
